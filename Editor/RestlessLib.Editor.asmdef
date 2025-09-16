@@ -1,0 +1,18 @@
+{
+    "name": "RestlessLib.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:558cac710b5d8bf419df15d387405a09"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

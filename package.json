@@ -1,0 +1,21 @@
+{
+  "name": "com.restless.lib",
+  "displayName": "Restless Lib",
+  "version": "0.1.0",
+  "unity": "2023.1",
+  "description": "The Restless Lib is a lightweight library for Unity.",
+  "assetsPackageFile": "Packages/com.restless.lib/assets.package",
+  "documentationUrl": "https://trello.com/b/FwOl8MRt/restless-engine",
+  "repository": {
+    "url": "https://github.com/noderim/RestlessLib",
+    "type": "git"
+  },
+    "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
+  },
+  "author": {
+    "name": "Noderim",
+    "email": "noderim.dev@gmail.com",
+    "url": "https://github.com/noderim"
+  }
+}
