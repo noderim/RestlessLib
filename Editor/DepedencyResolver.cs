@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
 using UnityEditor.PackageManager.Requests;
 
-namespace Hibzz.DependencyResolver
+namespace RestlessLib.Editor
 {
     [InitializeOnLoad]
     public class DependencyResolver
@@ -163,7 +163,7 @@ namespace Hibzz.DependencyResolver
         /// </summary>
         static void DisplayProgress()
         {
-            if(packageInstallationRequest.IsCompleted)
+            if (packageInstallationRequest.IsCompleted)
             {
                 EditorUtility.ClearProgressBar();
                 EditorApplication.update -= DisplayProgress;
