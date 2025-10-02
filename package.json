@@ -1,9 +1,10 @@
 {
   "name": "com.restless.lib",
   "displayName": "Restless Lib",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "unity": "2023.1",
   "description": "The Restless Lib is a lightweight library for Unity.",
+  "pathToAssets": "Resources.unitypackage",
   "assetsPackageFile": "Packages/com.restless.lib/assets.package",
   "documentationUrl": "https://trello.com/b/FwOl8MRt/restless-engine",
   "repository": {
