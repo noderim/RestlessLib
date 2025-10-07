@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using UnityEditor;
-using UnityEditor.VersionControl;
 using UnityEngine;
 
 namespace RestlessLib.SaveUtility
@@ -11,15 +10,14 @@ namespace RestlessLib.SaveUtility
         private const string SaveDirectory = "Assets/Saved/";
         public static void Save(ScriptableObject data)
         {
-            if (!Directory.Exists(SaveDirectory))
-            {
-                AssetDatabase.CreateFolder("Assets", "Saved");
-            }
-
             try
             {
                 string json = JsonUtility.ToJson(data, true);
 #if UNITY_EDITOR
+                if (!Directory.Exists(SaveDirectory))
+                {
+                    AssetDatabase.CreateFolder("Assets", "Saved");
+                }
                 string path = Path.Combine(SaveDirectory, data.name);
 #else
                 string path = Path.Combine(Application.persistentDataPath, data.name);
@@ -32,8 +30,17 @@ namespace RestlessLib.SaveUtility
                 Debug.LogError($"Failed to save data: {e.Message}");
             }
         }
+        public static bool FileExists(ScriptableObject data)
+        {
+#if UNITY_EDITOR
+            string path = Path.Combine(SaveDirectory, data.name);
+#else
+            string path = Path.Combine(Application.persistentDataPath, data.name);
+#endif
+            return File.Exists(path);
+        }
 
-        public static bool Load(ScriptableObject data)
+        public static bool Load(ScriptableObject data, bool CreateifNotExists = false, bool RetryOnCreation = true)
         {
             try
             {
@@ -54,6 +61,23 @@ namespace RestlessLib.SaveUtility
                 else
                 {
                     Debug.LogWarning("Save file not found.");
+                    if (CreateifNotExists)
+                    {
+                        Debug.Log("Creating new save file.");
+                        Save(data);
+                        if (RetryOnCreation)
+                        {
+                            if (Load(data, false, false))
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                Debug.LogError("Failed to load data after creation.");
+                                return false;
+                            }
+                        }
+                    }
                     return false;
                 }
             }
@@ -160,6 +184,19 @@ namespace RestlessLib.SaveUtility
             {
                 Save(obj, filename, verbose);
                 return false;
+            }
+            return true;
+        }
+        public static bool CreateOrLoad(ScriptableObject obj, bool RetryOnCreation = true)
+        {
+            if (!Load(obj))
+            {
+                Save(obj);
+                return false;
+            }
+            if (RetryOnCreation)
+            {
+                return Load(obj, false, false);
             }
             return true;
         }
