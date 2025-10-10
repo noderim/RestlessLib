@@ -1,18 +1,22 @@
 using System;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace RestlessLib.SaveUtility
 {
     public static class SaveUtility
     {
         private const string SaveDirectory = "Assets/Saved/";
+
         public static void Save(ScriptableObject data)
         {
             try
             {
                 string json = JsonUtility.ToJson(data, true);
+
 #if UNITY_EDITOR
                 if (!Directory.Exists(SaveDirectory))
                 {
@@ -22,6 +26,7 @@ namespace RestlessLib.SaveUtility
 #else
                 string path = Path.Combine(Application.persistentDataPath, data.name);
 #endif
+
                 File.WriteAllText(path, json);
                 Debug.Log("Data saved successfully.");
             }
@@ -30,6 +35,7 @@ namespace RestlessLib.SaveUtility
                 Debug.LogError($"Failed to save data: {e.Message}");
             }
         }
+
         public static bool FileExists(ScriptableObject data)
         {
 #if UNITY_EDITOR
@@ -44,7 +50,6 @@ namespace RestlessLib.SaveUtility
         {
             try
             {
-
 #if UNITY_EDITOR
                 string path = Path.Combine(SaveDirectory, data.name);
 #else
@@ -68,14 +73,8 @@ namespace RestlessLib.SaveUtility
                         if (RetryOnCreation)
                         {
                             if (Load(data, false, false))
-                            {
                                 return true;
-                            }
-                            else
-                            {
-                                Debug.LogError("Failed to load data after creation.");
-                                return false;
-                            }
+                            Debug.LogError("Failed to load data after creation.");
                         }
                     }
                     return false;
@@ -87,13 +86,16 @@ namespace RestlessLib.SaveUtility
                 return false;
             }
         }
-        public static T GetObject<T>() where T : ScriptableObject
+
+#if UNITY_EDITOR
+        public static T EditorGetObject<T>() where T : ScriptableObject
         {
             T obj = AssetDatabase.LoadAssetAtPath<T>(Path.Combine(SaveDirectory, typeof(T).Name));
             Load(obj);
             return obj;
         }
-        public static T GetOrCreate<T>() where T : ScriptableObject
+
+        public static T EditorGetOrCreate<T>() where T : ScriptableObject
         {
             T obj = AssetDatabase.LoadAssetAtPath<T>(Path.Combine(SaveDirectory, $"{typeof(T).Name}.asset"));
             if (obj == null)
@@ -110,34 +112,34 @@ namespace RestlessLib.SaveUtility
             Load(obj);
             return obj;
         }
+#endif
 
         public static void Save(object data, string filename, bool verbose = true)
         {
             try
             {
                 string json = JsonUtility.ToJson(data, true);
+
 #if UNITY_EDITOR
                 string path = Path.Combine(SaveDirectory, filename);
 #else
                 string path = Path.Combine(Application.persistentDataPath, filename);
 #endif
+
                 string directory = Path.GetDirectoryName(path);
-
                 if (verbose)
-                {
                     Debug.Log($"Saving data to: {path}");
-                }
 
+#if UNITY_EDITOR
                 if (!Directory.Exists(directory))
                 {
                     AssetDatabase.CreateFolder("Assets", "Saved");
                 }
+#endif
 
                 File.WriteAllText(path, json);
                 if (verbose)
-                {
                     Debug.Log("Data saved successfully.");
-                }
             }
             catch (Exception e)
             {
@@ -160,9 +162,7 @@ namespace RestlessLib.SaveUtility
                     string json = File.ReadAllText(path);
                     JsonUtility.FromJsonOverwrite(json, obj);
                     if (verbose)
-                    {
                         Debug.Log("Data loaded successfully.");
-                    }
                     return true;
                 }
                 else
@@ -187,6 +187,7 @@ namespace RestlessLib.SaveUtility
             }
             return true;
         }
+
         public static bool CreateOrLoad(ScriptableObject obj, bool RetryOnCreation = true)
         {
             if (!Load(obj))
@@ -195,11 +196,8 @@ namespace RestlessLib.SaveUtility
                 return false;
             }
             if (RetryOnCreation)
-            {
                 return Load(obj, false, false);
-            }
             return true;
         }
     }
-
 }
