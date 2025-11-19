@@ -8,6 +8,7 @@ namespace RestlessLib
     public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
         public static T Instance { get; private set; }
+        public static bool InstanceAvailable => Instance != null;
 
         protected virtual void Awake()
         {
@@ -27,21 +28,14 @@ namespace RestlessLib
                 Instance = null;
             }
         }
-    }
-
-
-
-    public abstract class SingletonPersistent<T> : MonoSingleton<T> where T : SingletonPersistent<T>
-    {
-        protected override void Awake()
+        public bool CheckInstance()
         {
-            if (Instance != null)
-            {
-                Destroy(gameObject);
-                return;
-            }
-            DontDestroyOnLoad(gameObject);
-            base.Awake();
+            return Instance != null;
         }
+        public static T GetInstance()
+        {
+            return Instance;
+        }
+
     }
 }
