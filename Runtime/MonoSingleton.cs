@@ -32,6 +32,14 @@ namespace RestlessLib
         {
             return Instance != null;
         }
+        public bool CheckInstance(string caller)
+        {
+            if (Instance == null)
+            {
+                Debug.LogWarning($"[{caller}] - Instance of {typeof(T).Name} is null.");
+            }
+            return Instance != null;
+        }
         public static T GetInstance()
         {
             return Instance;
