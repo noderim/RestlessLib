@@ -1,7 +1,7 @@
 {
   "name": "com.restless.lib",
   "displayName": "Restless Lib",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "unity": "2023.1",
   "description": "The Restless Lib is a lightweight library for Unity.",
   "pathToAssets": "Resources.unitypackage",

@@ -28,11 +28,11 @@ namespace RestlessLib
                 Instance = null;
             }
         }
-        public bool CheckInstance()
+        public static bool CheckInstance()
         {
             return Instance != null;
         }
-        public bool CheckInstance(string caller)
+        public static bool CheckInstance(string caller)
         {
             if (Instance == null)
             {
