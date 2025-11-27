@@ -1,3 +1,5 @@
+## [1.2.0] - 2025-11-27
+### Added - Architecture Service - Adapter - Config patterns
 ## [1.1.0] - 2025-11-04
 ### Added - Protected Singeton -> Singleton with protected instance
 ### Added - System Locator -> An implementation of Service Locator Pattern.

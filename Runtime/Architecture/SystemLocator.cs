@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Restless.Architecture
+namespace RestlessLib.Architecture
 {
     /// <summary>
     /// A simple static Service Locator for registering and retrieving systems.
@@ -38,6 +38,18 @@ namespace Restless.Architecture
         {
             var type = typeof(T);
             if (_services.ContainsKey(type))
+            {
+                _services.Remove(type);
+            }
+        }
+        /// <summary>
+        /// Unregisters a service of a specific type.
+        /// </summary>
+        /// <typeparam name="T">The type of the service to remove.</typeparam>
+        public static void Unregister<T>(T service)
+        {
+            var type = typeof(T);
+            if (_services.ContainsKey(type) && _services[type].Equals(service))
             {
                 _services.Remove(type);
             }
