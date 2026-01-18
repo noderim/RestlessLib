@@ -1,4 +1,4 @@
-namespace RestlessLib
+namespace RestlessLib.Architecture
 {
     public abstract class MonoSingletonPersistent<T> : MonoSingleton<T> where T : MonoSingletonPersistent<T>
     {

@@ -2,21 +2,28 @@ using RestlessLib.Architecture;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public abstract class MonoServiceProvider<TService> : MonoBehaviour
+namespace RestlessLib.Architecture
 {
-    [ShowInInspector]
-    public TService service;
-    public abstract bool TryCreateService(out TService service);
-    public LifecycleBinder lifecycleBinder = new LifecycleBinder();
-
-    public void Bind(TService _passedService)
+    /// <summary>
+    /// Base class for MonoBehaviour-based Service Providers.
+    /// </summary>
+    /// <typeparam name="TService">The type of service provided.</typeparam>
+    public abstract class MonoServiceProvider<TService> : MonoBehaviour
     {
-        lifecycleBinder.Bind(_passedService);
-    }
+        [ShowInInspector]
+        public TService service;
+        public abstract bool TryCreateService(out TService service);
+        public LifecycleBinder lifecycleBinder = new LifecycleBinder();
 
-    // Entry point for the Fluent API
-    public virtual ServiceBuilder<TService> CreateService()
-    {
-        return new ServiceBuilder<TService>(this);
+        public void Bind(TService _passedService)
+        {
+            lifecycleBinder.Bind(_passedService);
+        }
+
+        // Entry point for the Fluent API
+        public virtual ServiceBuilder<TService> CreateService()
+        {
+            return new ServiceBuilder<TService>(this);
+        }
     }
 }

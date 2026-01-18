@@ -1,5 +1,12 @@
-public interface IServiceConfiguration<TConfig>
+namespace RestlessLib.Architecture
 {
-    public TConfig Config { get; set; }
-    void ConfigureService(TConfig config);
+    /// <summary>
+    /// Interface for service configuration.
+    /// </summary>
+    /// <typeparam name="TConfig">The type of configuration.</typeparam>
+    public interface IServiceConfiguration<TConfig>
+    {
+        public TConfig Config { get; set; }
+        void ConfigureService(TConfig config);
+    }
 }

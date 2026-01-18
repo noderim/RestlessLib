@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace RestlessLib.Architecture
 {
+    /// <summary>
+    /// Class responsible for binding lifecycle events to a receiver object.
+    /// </summary>
     [System.Serializable]
     public class LifecycleBinder
     {

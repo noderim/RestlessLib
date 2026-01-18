@@ -1,13 +1,13 @@
 using UnityEngine;
 
-namespace RestlessLib
+namespace RestlessLib.Architecture
 {
     /// <summary>
-    /// Singleton Base class to be inherited by other classes. Have its instance as protected.
+    /// Singleton Base class to be inherited by other classes
     /// </summary>
-    public abstract class ProtectedSingleton<T> : MonoBehaviour where T : ProtectedSingleton<T>
+    public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
-        protected static T Instance { get; private set; }
+        public static T Instance { get; private set; }
         public static bool InstanceAvailable => Instance != null;
 
         protected virtual void Awake()
@@ -32,13 +32,10 @@ namespace RestlessLib
         {
             return Instance != null;
         }
-        public static bool CheckInstance(string caller)
+        public static T GetInstance()
         {
-            if (Instance == null)
-            {
-                Debug.LogWarning($"[{caller}] - Instance of {typeof(T).Name} is null.");
-            }
-            return Instance != null;
+            return Instance;
         }
+
     }
 }
